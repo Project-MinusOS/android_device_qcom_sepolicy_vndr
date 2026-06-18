@@ -27,7 +27,7 @@
 
 # Changes from Qualcomm Innovation Center are provided under the following license:
 #
-# Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -63,6 +63,7 @@ genfscon proc /debug/fwdump                           u:object_r:vendor_proc_wif
 genfscon proc /debugdriver/driverdump                 u:object_r:vendor_proc_wifi_dbg:s0
 genfscon proc /ath_pktlog/cld                         u:object_r:vendor_proc_wifi_dbg:s0
 genfscon proc /shs                                    u:object_r:vendor_proc_shs:s0
+genfscon proc /sys/kernel/firmware_config             u:object_r:vendor_proc_firmware_cfg:s0
 
 genfscon sysfs /android_touch                         u:object_r:vendor_sysfs_touch:s0
 genfscon sysfs /devices/virtual/input/ftm4_touch      u:object_r:vendor_sysfs_touch:s0
@@ -114,6 +115,7 @@ genfscon sysfs /module/lpm_stats                                        u:object
 genfscon sysfs /devices/virtual/graphics/fb0                            u:object_r:vendor_sysfs_graphics:s0
 genfscon sysfs /devices/virtual/graphics/fb1                            u:object_r:vendor_sysfs_graphics:s0
 genfscon sysfs /devices/soc/8c0000.qcom,msm-cam                         u:object_r:vendor_sysfs_camera:s0
+genfscon sysfs /devices/platform/soc/aa00000.qcom,vidc/sku_version      u:object_r:vendor_sysfs_sku:s0
 genfscon sysfs /devices/soc0                                            u:object_r:vendor_sysfs_soc:s0
 genfscon sysfs /devices/soc0/soc_id                                     u:object_r:vendor_sysfs_public:s0
 genfscon sysfs /devices/system/soc/soc0/id                              u:object_r:vendor_sysfs_public:s0
@@ -130,7 +132,6 @@ genfscon sysfs /kernel/boot_cdsp/boot                                   u:object
 genfscon sysfs /devices/virtual/cvp/cvp/boot                            u:object_r:vendor_sysfs_boot_cvp:s0
 genfscon sysfs /kernel/boot_slpi                                        u:object_r:vendor_sysfs_slpi:s0
 genfscon sysfs /devices/soc/c1b7000.i2c/i2c-9/9-0008                    u:object_r:vendor_sysfs_easel:s0
-genfscon sysfs /class/typec                                             u:object_r:vendor_sysfs_usb_c:s0
 genfscon sysfs /class/typec/usbc0                                       u:object_r:vendor_sysfs_usb_c:s0
 genfscon sysfs /devices/soc/a800000.ssusb/a800000.dwc3/xhci-hcd.0.auto/usb1 u:object_r:vendor_sysfs_usb_device:s0
 genfscon sysfs /devices/soc/a800000.ssusb/a800000.dwc3/xhci-hcd.0.auto/usb2 u:object_r:vendor_sysfs_usb_device:s0
@@ -143,7 +144,6 @@ genfscon sysfs /devices/platform/soc/5e00000.qcom,mdss_mdp/drm/card0/sde-crtc-2/
 genfscon sysfs /devices/platform/soc/a600000.ssusb/mode                 u:object_r:vendor_sysfs_usb_device:s0
 genfscon sysfs /devices/platform/soc/a800000.ssusb/mode                 u:object_r:vendor_sysfs_usb_device:s0
 genfscon sysfs /devices/platform/soc/4e00000.ssusb/mode                 u:object_r:vendor_sysfs_usb_device:s0
-genfscon sysfs /devices/platform/soc/a600000.ssusb/dynamic_disable      u:object_r:vendor_sysfs_usb_device:s0
 genfscon sysfs /devices/platform/soc/a600000.ssusb/usb_data_enabled     u:object_r:vendor_sysfs_usb_data_enabled:s0
 genfscon sysfs /devices/platform/soc/a800000.ssusb/usb_data_enabled     u:object_r:vendor_sysfs_usb_data_enabled:s0
 genfscon sysfs /devices/platform/soc/4e00000.ssusb/usb_data_enabled     u:object_r:vendor_sysfs_usb_data_enabled:s0
@@ -180,11 +180,9 @@ genfscon sysfs /firmware/devicetree/base/cpus u:object_r:vendor_sysfs_devicetree
 
 genfscon sysfs /bus/spmi/devices u:object_r:vendor_sysfs_spmi_dev:s0
 
+genfscon sysfs /power/mem_sleep u:object_r:vendor_sysfs_suspend:s0
 genfscon sysfs /kernel/boot_adsp/ssr                                   u:object_r:vendor_sysfs_adsp_ssr:s0
 genfscon sysfs /firmware/devicetree/base/soc  u:object_r:vendor_sysfs_devicetree_soc:s0
-
-genfscon sysfs /class/qcom-haptics/primitive_duration  u:object_r:vendor_sysfs_haptics:s0
-genfscon sysfs /class/qcom-battery u:object_r:vendor_sysfs_battery_supply:s0
 
 genfscon sysfs /module/rmnet_aps/parameters u:object_r:vendor_sysfs_rmnet:s0
 genfscon sysfs /module/rmnet_offload/parameters u:object_r:vendor_sysfs_rmnet:s0
@@ -193,17 +191,3 @@ genfscon sysfs /module/rmnet_perf_tether/parameters u:object_r:vendor_sysfs_rmne
 genfscon sysfs /module/rmnet_sch/parameters u:object_r:vendor_sysfs_rmnet:s0
 genfscon sysfs /module/rmnet_shs/parameters u:object_r:vendor_sysfs_rmnet:s0
 genfscon sysfs /module/rmnet_wlan/parameters u:object_r:vendor_sysfs_rmnet:s0
-
-genfscon sysfs /kernel/camera/num_ifes u:object_r:vendor_sysfs_camera:s0
-genfscon sysfs /kernel/camera/num_ife_lites u:object_r:vendor_sysfs_camera:s0
-genfscon sysfs /kernel/camera/num_sfes u:object_r:vendor_sysfs_camera:s0
-genfscon sysfs /kernel/camera/num_sbi u:object_r:vendor_sysfs_camera:s0
-genfscon sysfs /kernel/camera/subparts_info u:object_r:vendor_sysfs_camera:s0
-
-genfscon sysfs /kernel/qts/primary/trusted_touch_enable u:object_r:vendor_sysfs_trusted_touch_enable:s0
-genfscon sysfs /kernel/qts/secondary/trusted_touch_enable u:object_r:vendor_sysfs_trusted_touch_enable:s0
-
-genfscon sysfs /devices/platform/soc/soc:qcom,pmic_glink/soc:qcom,pmic_glink:qcom,ucsi/power_supply/ucsi-source-psy-soc:qcom,pmic_glink:qcom,ucsi1 u:object_r:vendor_sysfs_battery_supply:s0
-
-# UFS
-genfscon sysfs /devices/platform/soc/1d84000.ufshc/host0/target0:0:0/0:0:0:0/block/sda/queue/discard_max_bytes u:object_r:vendor_sysfs_mmc_host:s0
